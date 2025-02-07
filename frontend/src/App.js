@@ -1,11 +1,16 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Films from './components/Films'; // Adjust the path
 
 function App() {
     return (
-        <div className="App">
-            <h1>Welcome to Film Rental App</h1>
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={<h1>Welcome to the Movie Store</h1>} />
+                <Route path="/films" element={Films} />
+                {/* Add other routes as needed */}
+            </Routes>
+        </Router>
     );
 }
 

@@ -15,20 +15,13 @@ db = mysql.connector.connect(
 )
 cursor = db.cursor(dictionary=True)
 
-@app.route('/films/top5', methods=['GET'])
-def get_top5_films():
-    cursor.execute("""select f.film_id, f.title, c.name, count(r.rental_id) as rentalCount from rental as r
-    join inventory as i
-    on r.inventory_id = i.inventory_id
-    join film as f
-    on i.film_id = f.film_id
-    join film_category as fc
-    on f.film_id = fc.film_id
-    right join category as c
-    on fc.category_id = c.category_id
-    group by i.film_id, c.name
-    order by rentalCount desc
-    limit 5;""")
+@app.route('/films', methods=['GET'])
+def get_films():
+    cursor.execute("""select f.film_id as ID, f.title as TITLE, c.name as GENRE from film as f
+left join film_category as fc
+on f.film_id = fc.film_id
+left join category as c
+on fc.category_id = c.category_id;""")
     films = cursor.fetchall()
     return jsonify(films)
 

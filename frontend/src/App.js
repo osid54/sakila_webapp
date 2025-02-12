@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Films from './components/Films.js';
+import Films from './components/Films1.js';
 import Cust from './components/Customers.js';
+
 
 function App() {
     return (

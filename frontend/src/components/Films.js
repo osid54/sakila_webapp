@@ -4,14 +4,9 @@ import axios from 'axios';
 const Films = () => {
     const [films, setFilms] = useState([]);
 
-    console.log("Films component rendered"); // Check if component is rendering
-
     useEffect(() => {
-        console.log("useEffect is running"); // Check if useEffect is running
         axios.get('http://localhost:5000/films')
             .then(response => {
-                console.log("API request successful"); // Check if request succeeded
-                console.log(response.data); // Check the response structure
                 if (Array.isArray(response.data)) {
                     setFilms(response.data);
                 } else {
@@ -27,7 +22,7 @@ const Films = () => {
         <div>
             <h1>All Films</h1>
             {films.length === 0 ? (
-                <p>Loading films...</p> // Display loading if films data is empty
+                <p>Loading films...</p>
             ) : (
                 <table border="1" cellSpacing="0" cellPadding="10">
                     <thead>
@@ -35,6 +30,8 @@ const Films = () => {
                             <th>ID</th>
                             <th>Title</th>
                             <th>Genre</th>
+                            <th>Description</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -43,6 +40,7 @@ const Films = () => {
                                 <td>{film.ID}</td>
                                 <td>{film.TITLE}</td>
                                 <td>{film.GENRE}</td>
+                                <td>{film.DESC}</td>
                             </tr>
                         ))}
                     </tbody>

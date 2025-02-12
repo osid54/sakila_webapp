@@ -4,11 +4,19 @@ import axios from 'axios';
 const Films = () => {
     const [films, setFilms] = useState([]);
 
+    console.log("Films component rendered"); // Check if component is rendering
+
     useEffect(() => {
+        console.log("useEffect is running"); // Check if useEffect is running
         axios.get('http://localhost:5000/films')
             .then(response => {
-                console.log(response.data); // Check what the response looks like
-                setFilms(response.data);  // Populate the films state
+                console.log("API request successful"); // Check if request succeeded
+                console.log(response.data); // Check the response structure
+                if (Array.isArray(response.data)) {
+                    setFilms(response.data);
+                } else {
+                    console.error("Expected an array but got:", response.data);
+                }
             })
             .catch(error => {
                 console.error("There was an error fetching films:", error);
@@ -43,4 +51,5 @@ const Films = () => {
         </div>
     );
 };
+
 export default Films;

@@ -4,7 +4,7 @@ import axios from 'axios';
 function Films() {
     const [films, setFilms] = useState([]);
     const [filterText, setFilterText] = useState('');
-    const [searchFilter, setSearchFilter] = useState('title');
+    const [searchFilter, setSearchFilter] = useState('TITLE');
 
     useEffect(() => {
         axios.get('http://localhost:5000/films')

@@ -4,7 +4,7 @@ import axios from 'axios';
 function Films() {
     const [films, setFilms] = useState([]);
     const [filterText, setFilterText] = useState('');
-    const [inStockOnly, setInStockOnly] = useState(false);
+    const [searchFilter, setSearchFilter] = useState('title');
 
     useEffect(() => {
         axios.get('http://localhost:5000/films')
@@ -24,64 +24,49 @@ function Films() {
         <div>
             <SearchBar
                 filterText={filterText}
-                inStockOnly={inStockOnly}
+                searchFilter={searchFilter}
                 onFilterTextChange={setFilterText}
-                onInStockOnlyChange={setInStockOnly}
+                onSearchFilterChange={setSearchFilter}
             />
             <FilmTable
                 films={films}
                 filterText={filterText}
-                inStockOnly={inStockOnly}
+                searchFilter={searchFilter}
             />
         </div>
     );
 }
 function SearchBar({
     filterText,
-    inStockOnly,
+    searchFilter,
     onFilterTextChange,
-    onInStockOnlyChange
+    onSearchFilterChange
 }) {
     return (
         <form>
             <input
                 type="text"
                 value={filterText}
-                placeholder="Search films..."
+                placeholder={`Search by ${searchFilter}`}
                 onChange={(e) => onFilterTextChange(e.target.value)}
             />
-            <label>
-                <input
-                    type="checkbox"
-                    checked={inStockOnly}
-                    onChange={(e) => onInStockOnlyChange(e.target.checked)}
-                />
-                {' '}
-                Only show films in stock
-            </label>
+            Search By:
+            <select onChange={(e) => onSearchFilterChange(e.target.value)} value={searchFilter}>
+                <option value="ID">ID</option>
+                <option value="TITLE">Title</option>
+                <option value="GENRE">Genre</option>
+                <option value="DESC">Description</option>
+            </select>
         </form>
     );
 }
-function FilmTable({ films, filterText, inStockOnly }) {
-    const rows = [];
+function FilmTable({ films, filterText, searchFilter }) {
+    const filteredFilms = films.filter((film) => {
+        if (searchFilter === "ID") {
+            return film.ID.toString().includes(filterText);
+        }
 
-    films.forEach((film) => {
-        if (
-            film.TITLE.toLowerCase().indexOf(
-                filterText.toLowerCase()
-            ) === -1
-        ) {
-            return;
-        }
-        if (inStockOnly && !film.inStock) { // Assuming `inStock` is a property in your film data
-            return;
-        }
-        rows.push(
-            <FilmRow
-                film={film}
-                key={film.ID}
-            />
-        );
+        return film[searchFilter].toString().toLowerCase().includes(filterText.toLowerCase());
     });
 
     return (
@@ -94,7 +79,11 @@ function FilmTable({ films, filterText, inStockOnly }) {
                     <th>Description</th>
                 </tr>
             </thead>
-            <tbody>{rows}</tbody>
+            <tbody>
+                {filteredFilms.map((film) => (
+                    <FilmRow film={film} key={film.ID} />
+                ))}
+            </tbody>
         </table>
     );
 }

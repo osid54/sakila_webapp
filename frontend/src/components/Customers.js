@@ -47,10 +47,10 @@ function SearchBar({
             <input
                 type="text"
                 value={filterText}
-                placeholder={`Search by ${searchFilter}`}
+                placeholder={`Search customers...`}
                 onChange={(e) => onFilterTextChange(e.target.value)}
             />
-            Search By:
+            {" Filter By: "}
             <select onChange={(e) => onSearchFilterChange(e.target.value)} value={searchFilter}>
                 <option value="ID">ID</option>
                 <option value="FIRST">First Name</option>

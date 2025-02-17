@@ -20,6 +20,8 @@ function Films() {
             });
     }, []);
 
+    console.log("FILMS: ", films)
+
     return (
         <div>
             <SearchBar
@@ -47,15 +49,16 @@ function SearchBar({
             <input
                 type="text"
                 value={filterText}
-                placeholder={`Search by ${searchFilter}`}
+                placeholder={`Search films...`}
                 onChange={(e) => onFilterTextChange(e.target.value)}
             />
-            Search By:
+            {" Filter By: "}
             <select onChange={(e) => onSearchFilterChange(e.target.value)} value={searchFilter}>
                 <option value="ID">ID</option>
                 <option value="TITLE">Title</option>
                 <option value="GENRE">Genre</option>
                 <option value="DESC">Description</option>
+                <option value="ACTORS">Actor</option>
             </select>
         </form>
     );
@@ -79,6 +82,10 @@ function FilmTable({ films, filterText, searchFilter }) {
                     <th>Title</th>
                     <th>Genre</th>
                     <th>Description</th>
+                    <th>Price</th>
+                    <th>Length</th>
+                    <th>Rating</th>
+                    <th>Actors</th>
                 </tr>
             </thead>
             <tbody>
@@ -96,6 +103,10 @@ function FilmRow({ film }) {
             <td>{film.TITLE}</td>
             <td>{film.GENRE}</td>
             <td>{film.DESC}</td>
+            <td>{film.PRICE}</td>
+            <td>{film.LENGTH}</td>
+            <td>{film.RATING}</td>
+            <td>{film.ACTORS}</td>
         </tr>
     );
 }
